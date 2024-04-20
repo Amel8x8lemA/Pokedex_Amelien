@@ -1,70 +1,99 @@
-export function createUser(name,avatar) {
-  const users = getUsers()
-  users.push({name:name,avatar,createdAt: new Date(),pokemons:[]})
-  localStorage.setItem('users',JSON.stringify(users))
+/*export const getUsersInLocalStorage = () => {
+    const localStorageUsers = localStorage.getItem('users')
+    return JSON.parse(localStorageUsers)
+}
+*/
+export const setUsersInLocalStorage = (users) => {
+    const stringifiedUsers = users.map(user => ({
+        ...user,
+        avatar: String(user.avatar)
+    }));
+    localStorage.setItem('users', JSON.stringify(stringifiedUsers));
 }
 
 
+export const getUsersFromLocalStorage = () => {
+    const localStorageUsers = localStorage.getItem('users');
+    return JSON.parse(localStorageUsers) || [];
+};
 
-export function getUsers() {
-    const usersLocalStorage = localStorage.getItem('users')
-    const users = usersLocalStorage ? JSON.parse(usersLocalStorage) : []
-    return users
+export const addUserToLocalStorage = (newUser) => {
+    const users = getUsersFromLocalStorage();
+    const updatedUser = { ...newUser, pokemonNumbers: [] };
+    const updatedUsers = [...users, updatedUser];
+    localStorage.setItem('users', JSON.stringify(updatedUsers));
+};
+
+export const removeUserFromLocalStorage = (index) => {
+    const storedUsers = getUsersFromLocalStorage();
+    if (storedUsers) {
+        const updatedUsers = storedUsers.filter((user, i) => i !== index);
+        setUsersInLocalStorage(updatedUsers);
+    }
+};
+
+/*
+export const addPokemonToUser = (userId, pokemonNumber) => {
+    const users = getUsersFromLocalStorage();
+    const updatedUsers = users.map(user => {
+        if (user.id === userId) {
+            return {
+                ...user,
+                pokemonNumbers: [...user.pokemonNumbers, pokemonNumber]
+            };
+        }
+        return user;
+    });
+    localStorage.setItem('users', JSON.stringify(updatedUsers));
+};
+*/
+export const addPokemonToUser = (userId, pokemonNumber) => {
+    const users = getUsersFromLocalStorage();
+    const currentUser = getCurrentUser();
+
+    const updatedUsers = users.map(user => {
+        if (user.id === userId) {
+            return {
+                ...user,
+                pokemonNumbers: [...user.pokemonNumbers, pokemonNumber]
+            };
+        }
+        return user;
+    });
+
+    const updatedCurrentUser = {
+        ...currentUser,
+        pokemonNumbers: [...currentUser.pokemonNumbers, pokemonNumber]
+    };
+    setCurrentUser(updatedCurrentUser);
+
+    localStorage.setItem('users', JSON.stringify(updatedUsers));
+};
+
+
+export const removePokemonFromUser = (userId, pokemonNumber) => {
+    const users = getUsersFromLocalStorage();
+    const updatedUsers = users.map(user => {
+        if (user.id === userId) {
+            return {
+                ...user,
+                pokemonNumbers: user.pokemonNumbers.filter(num => num !== pokemonNumber)
+            };
+        }
+        return user;
+    });
+    localStorage.setItem('users', JSON.stringify(updatedUsers));
+};
+
+export const getCurrentUser = () => {
+    const currentUser = localStorage.getItem('currentUser');
+    return JSON.parse(currentUser);
 }
 
-export function deleteUser(user){
-    const users = getUsers()
-    const index = users.findIndex((u) => u.name === user.name)
-    users.splice(index,1)
-    localStorage.setItem('users',JSON.stringify(users))
+export const setCurrentUser = (user) => {
+    localStorage.setItem('currentUser', JSON.stringify(user));
 }
 
-export function setCurrentUser(user,avatar){
-    localStorage.setItem('currentUser',JSON.stringify({name:user,avatar}))
-}
-
-export function removeCurrentUser(){
-    localStorage.removeItem('currentUser')
-}
-
-export function getCurrentUser(){
-    const user = localStorage.getItem('currentUser')
-    return user ? JSON.parse(user) : null
-}
-
-export function getPokemonsInCurrentUserInUsers(){
-    const user = getCurrentUser()
-    const users = getUsers()
-    const index = users.findIndex((u) => u.name === user.name)  
-    const pokemons = users[index].pokemons || []
-    console.log('Pokemons in current user',pokemons)
-    return users[index].pokemons || []
-}
-
-export function setPokemonInCurrentUserInUsers(pokemon){
-    const user = getCurrentUser()
-    const users = getUsers()
-    const index = users.findIndex((u) => u.name === user.name)
-
-    users[index].pokemons.push(pokemon)
-    console.log('Users',users)
-    
-    localStorage.setItem('users',JSON.stringify(users))
-}
-
-export function setPokemonsInCurrentUserInUsers(pokemons){
-    const user = getCurrentUser()
-    const users = getUsers()
-    const index = users.findIndex((u) => u.name === user.name)
-    users[index].pokemons = pokemons
-    localStorage.setItem('users',JSON.stringify(users))
-}
-
-export function removePokemonInCurrentUserInUsers(pokemon){
-    const user = getCurrentUser()
-    const users = getUsers()
-    const index = users.findIndex((u) => u.name === user.name)
-    const indexPokemon = users[index].pokemons.findIndex((p) => p.name === pokemon.name)
-    users[index].pokemons.splice(indexPokemon,1)
-    localStorage.setItem('users',JSON.stringify(users))
+export const removeCurrentUser = () => {
+    localStorage.removeItem('currentUser');
 }
