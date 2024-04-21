@@ -5,7 +5,7 @@ import { Avatar, Typography, Box, Divider, Button, IconButton } from '@mui/mater
 import DeleteIcon from '@mui/icons-material/Delete';
 import { getUsersFromLocalStorage, removeUserFromLocalStorage } from '../services/users';
 import { Link } from 'react-router-dom';
-import { getCurrentUser, setCurrentUser, removeCurrentUser } from '../services/users'
+import { setCurrentUser } from '../services/users'
 
 
 function Login() {
@@ -39,11 +39,14 @@ function Login() {
                 {users.map((user, index) => (
                     <Box key={index} sx={{ display: 'flex', alignItems: 'center', gap: 1}}>
                         <Link key={index} to={`/pokedex`} style={{ textDecoration: 'none' }}>
-                            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, cursor: 'pointer' }} onClick={() => handleSelectUser(index)} >
+                            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, cursor: 'pointer', width: '70%', justifyItems:'left' }} onClick={() => handleSelectUser(index)} >
                                 <Avatar alt={`Avatar ${user.name}`} src={"/src/assets/"+user.avatar+".jpg"} sx={{ width: 40, height: 40 }} />
                                 <Typography>{user.name}</Typography>
                             </Box>
                         </Link>
+                        <Box>
+                            
+                        </Box>
                         <IconButton aria-label="delete" color="primary" onClick={() => handleDeleteUser(index)}>
                             <DeleteIcon />
                         </IconButton>

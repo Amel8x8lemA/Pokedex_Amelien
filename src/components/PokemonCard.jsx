@@ -1,38 +1,51 @@
 import React, { useEffect, useState } from 'react';
-import { Avatar, Typography, Box, Button, Card, CardMedia } from '@mui/material';
+import { Typography, Box, Button, Card, CardMedia } from '@mui/material';
 import { Link } from 'react-router-dom';
-import { getPokemonName, getPokemonImageUrl } from '../services/pokemons';
+import { WidthFull } from '@mui/icons-material';
 
 function PokemonCard({ pokemonNumber }) {
+    
+    const { pokemonId } = pokemonNumber;
 
-    const [pokemonName, setPokemonName] = useState('');
-    const [pokemonImgUrl, setPokemonImgUrl] = useState('');
+    const [fetchedPokemon, setFetchedPokemon] = useState({
+        id: pokemonId,
+        nom: "",
+        image:
+          "https://i.ibb.co/LrzXsZy/30-A26310-E4-C9-4272-BF0-C-0-A8-D932-BB877.png"
+    });
 
-    useEffect(() => {
-        const fetchData = async () => {
-            const name = await getPokemonName(pokemonNumber);
-            const imgUrl = getPokemonImageUrl(pokemonNumber);
-            setPokemonName(name);
-            setPokemonImgUrl(imgUrl);
+    const fetchPokemonApi = async () => {
+        let r = await fetch("https://pokeapi.co/api/v2/pokemon/" + pokemonNumber);
+        let data = await r.json();
+
+        const pokemon = {
+            id: data["id"],
+            nom: data["name"],
+            image: data["sprites"]["other"]["official-artwork"]["front_default"]
         };
-        fetchData();
-    }, [pokemonNumber]);
+
+        setFetchedPokemon(pokemon);
+    };
+
+    useEffect(() => { fetchPokemonApi(); }, []);
 
     return (
-        <Card>
+        <Card variant="outlined" sx={{ p: 2 }}>
             <CardMedia
                 component="img"
-                height="194"
-                image={pokemonImgUrl}
-                alt={pokemonName}
+                image={fetchedPokemon.image}
+                alt={fetchedPokemon.nom}
             />
-            <Box sx={{ p: 2 }}>
-                <Typography variant="h3">{pokemonName}</Typography>
-                <Link to={`/pokemon-view/${pokemonNumber}`} style={{ textDecoration: 'none' }}>
-                    <Button variant="contained" fullWidth>
-                        Voir le pokemon
-                    </Button>
-                </Link>
+            <Box sx={{ display: 'flex', flexDirection:'column', alignItems: 'center', gap: 1}}>
+                <Typography variant="h3">{fetchedPokemon.nom}</Typography>
+                <Box sx={{ width:'100%' }}>
+                    <Link to={`/pokemon-view/${fetchedPokemon.id}`} style={{ textDecoration: 'none' }} sx={{WidthFull}}>
+                        <Button variant="contained" fullWidth>
+                            Voir le pokemon
+                        </Button>
+                    </Link>
+                </Box>
+                
             </Box>
         </Card>
     );

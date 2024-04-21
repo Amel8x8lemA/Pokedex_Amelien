@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Button, Typography, Box, Avatar, TextField, FormGroup, FormControl } from '@mui/material';
 import { addUserToLocalStorage } from '/src/services/users';

@@ -1,7 +1,6 @@
 import React from 'react'
 import {Box, Container,Card, Typography, Avatar,Button} from '@mui/material'
 import logo from '../assets/logo.png'
-import { useNavigate } from 'react-router-dom'
 import { getCurrentUser, removeCurrentUser } from '../services/users';
 import { Link } from 'react-router-dom';
 
