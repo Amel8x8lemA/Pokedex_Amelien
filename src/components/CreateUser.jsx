@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom'; // Ajout de useNavigate
 import { Button, Typography, Box, Avatar, TextField, FormGroup, FormControl } from '@mui/material';
 import { addUserToLocalStorage } from '/src/services/users';
 import Page from './Page';
@@ -7,6 +7,7 @@ import Page from './Page';
 function CreateUser() {
     const [selectedAvatar, setSelectedAvatar] = useState(null);
     const [userName, setUserName] = useState('');
+    const navigate = useNavigate(); // Utilisation de useNavigate pour obtenir la fonction de navigation
 
     const handleAvatarClick = (index) => {
         setSelectedAvatar(index);
@@ -19,7 +20,7 @@ function CreateUser() {
     const handleAddUser = () => {
         if (!userName || selectedAvatar === null) {
             alert('Veuillez sélectionner un nom et un avatar.');
-            return;
+            return; // Annulation de la fonction si les conditions ne sont pas remplies
         }
 
         const newUser = {
@@ -32,6 +33,9 @@ function CreateUser() {
         
         setUserName('');
         setSelectedAvatar(null);
+
+        // Redirection vers la page de connexion seulement si les conditions sont remplies
+        navigate('/login');
     };
 
     return (
@@ -59,9 +63,7 @@ function CreateUser() {
                     <TextField fullWidth placeholder='Nom' value={userName} onChange={handleUserNameChange} />
                 </FormControl>
                 <FormControl>
-                    <Link to="/login" style={{ textDecoration: 'none' }}>
-                        <Button variant="contained" fullWidth onClick={handleAddUser}>Créer un compte</Button>
-                    </Link>
+                    <Button variant="contained" fullWidth onClick={handleAddUser}>Créer un compte</Button>
                 </FormControl>
             </FormGroup>
         </Page>

@@ -43,8 +43,6 @@ function SearchPokemon() {
             pokemon.name.toLowerCase().includes(searchTerm)
         );
         setFilteredPokemonList(filteredList);
-        console.log("searchterm : " + searchTerm);
-        console.log("searchterm : " + filteredList);
     };
 
     return (

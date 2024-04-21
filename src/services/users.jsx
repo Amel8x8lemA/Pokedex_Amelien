@@ -55,14 +55,19 @@ export const removePokemonFromUser = (userId, pokemonNumber) => {
     }
 };
 
-
-export const isPokemonInPokedex = (userId, pokemonId) => {
+export const isPokemonInPokedex = (pokemonId) => {
     const currentUser = getCurrentUser();
     if (currentUser && currentUser.pokemonNumbers) {
-        return currentUser.pokemonNumbers.includes(pokemonId);
+        // Vérifie si le Pokémon est présent dans la liste des numéros de Pokémon du joueur
+        for (let i = 0; i < currentUser.pokemonNumbers.length; i++) {
+            if (currentUser.pokemonNumbers[i] === pokemonId) {
+                return true;
+            }
+        }
     }
     return false;
 };
+
 
 /* Gestion current User */
 

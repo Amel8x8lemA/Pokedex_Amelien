@@ -2,12 +2,17 @@ import React from 'react'
 import {Box, Container,Card, Typography, Avatar,Button} from '@mui/material'
 import logo from '../assets/logo.png'
 import { getCurrentUser, removeCurrentUser } from '../services/users';
-import { Link } from 'react-router-dom';
+import { Link,useNavigate } from 'react-router-dom';
 
 function Page({children}) {
 
-  
-const currentUser = getCurrentUser();
+  const navigate = useNavigate();
+  const currentUser = getCurrentUser();
+
+  const handleLogout = () => {
+    removeCurrentUser();
+    navigate('/login');
+  };
 
   return (
     <Box>
@@ -26,7 +31,7 @@ const currentUser = getCurrentUser();
                     </Box>
                   </Link>
                   <Link to="/login" style={{ textDecoration: 'none' }}>
-                    <Button variant="contained" onClick={() => removeCurrentUser()}>Se déconnecter</Button>
+                    <Button variant="contained" onClick={handleLogout}>Se déconnecter</Button>
                   </Link>
                 </Box>
               )}

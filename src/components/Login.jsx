@@ -4,7 +4,7 @@ import Page from './Page';
 import { Avatar, Typography, Box, Divider, Button, IconButton } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { getUsersFromLocalStorage, removeUserFromLocalStorage } from '../services/users';
-import { Link } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 import { setCurrentUser } from '../services/users'
 
 
@@ -23,6 +23,9 @@ function Login() {
         const updatedUsers = [...users];
         updatedUsers.splice(index, 1);
         setUsers(updatedUsers);
+        if (updatedUsers.length === 0) {
+            window.location.href = "/create-user";
+        }
     };
 
     const handleSelectUser = (index) => {
@@ -36,22 +39,28 @@ function Login() {
                 <Typography variant='h1'>Connexion au Pokedex</Typography>
             </Box>
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2}} >
-                {users.map((user, index) => (
-                    <Box key={index} sx={{ display: 'flex', alignItems: 'center', gap: 1}}>
-                        <Link key={index} to={`/pokedex`} style={{ textDecoration: 'none' }}>
-                            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, cursor: 'pointer', width: '70%', justifyItems:'left' }} onClick={() => handleSelectUser(index)} >
-                                <Avatar alt={`Avatar ${user.name}`} src={"/src/assets/"+user.avatar+".jpg"} sx={{ width: 40, height: 40 }} />
-                                <Typography>{user.name}</Typography>
+                {users && users.length > 0 ? (
+                    users.map((user, index) => (
+                        <Box key={index} sx={{ display: 'flex', alignItems: 'center', gap: 1}}>
+                            <Link key={index} to={`/pokedex`} style={{ textDecoration: 'none' }}>
+                                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, cursor: 'pointer', width: '70%', justifyItems:'left' }} onClick={() => handleSelectUser(index)} >
+                                    <Avatar alt={`Avatar ${user.name}`} src={"/src/assets/"+user.avatar+".jpg"} sx={{ width: 40, height: 40 }} />
+                                    <Typography>{user.name}</Typography>
+                                </Box>
+                            </Link>
+                            <Box>
+                                
                             </Box>
-                        </Link>
-                        <Box>
-                            
+                            <IconButton aria-label="delete" color="primary" onClick={() => handleDeleteUser(index)}>
+                                <DeleteIcon />
+                            </IconButton>
                         </Box>
-                        <IconButton aria-label="delete" color="primary" onClick={() => handleDeleteUser(index)}>
-                            <DeleteIcon />
-                        </IconButton>
+                    ))
+                ) : (
+                    <Box>
+                        <Typography sx={{ marginLeft: 2 }}>Vous n'avez pas de compte utilisateur</Typography>
                     </Box>
-                ))}
+                )}
             </Box>
             <Divider sx={{ marginTop: 2, marginBottom: 2 }}/>
             <Link to="/create-user" style={{ textDecoration: 'none' }}>

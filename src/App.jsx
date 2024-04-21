@@ -1,7 +1,7 @@
 import { ThemeProvider, createTheme } from '@mui/material'
 import { defaultTheme } from './assets/defaultTheme'
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { getCurrentUser } from './services/users';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { getCurrentUser, getUsersFromLocalStorage } from './services/users';
 import './App.css'
 import CreateUser from './components/CreateUser'
 import Login from './components/Login'
@@ -23,8 +23,8 @@ function App() {
           ) : (
             <Route path="/" element={<Pokedex />} />
           )}
-          <Route path="/login" element={<Login />} />
-          <Route path="/create-user" element={<CreateUser />} />
+          <Route path="/login" element={currentUser ? <Navigate to="/pokedex" /> : <Login />} />
+          <Route path="/create-user" element={currentUser ? <Navigate to="/pokedex" /> : <CreateUser />} />
           <Route path="/pokedex" element={<Pokedex />} />
           <Route path="/search-pokemon" element={<SearchPokemon />} />
           <Route path="/pokemon-view/:pokemonId" element={<PokemonView />} />

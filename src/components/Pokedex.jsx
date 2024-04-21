@@ -35,7 +35,7 @@ function Pokedex() {
                     ))
                 ) : (
                     <Box>
-                        <Typography>Votre pokedex est vide</Typography>
+                        <Typography sx={{ marginLeft: 2 }}>Votre pokedex est vide</Typography>
                     </Box>
                 )}
             </Grid>

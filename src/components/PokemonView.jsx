@@ -36,7 +36,7 @@ function PokemonView() {
 
     useEffect(() => {
         fetchPokemonApi();
-        setIsInPokedex(isPokemonInPokedex());
+        setIsInPokedex(isPokemonInPokedex(pokemonId));
     }, []);
 
 
