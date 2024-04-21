@@ -1,48 +1,61 @@
-import React from 'react'
-import {Box, Container,Card, Typography, Avatar,Button} from '@mui/material'
-import logo from '../assets/logo.png'
-import { getCurrentUser, removeCurrentUser } from '../services/users';
-import { Link,useNavigate } from 'react-router-dom';
+import React from 'react';
+import { Box, Container, Card, Typography, Avatar, Button } from '@mui/material'; // Importation des composants depuis MUI
+import logo from '../assets/logo.png'; // Importation du logo Pokemon
+import { getCurrentUser, removeCurrentUser } from '../services/users'; // Importation des fonctions liées aux utilisateurs depuis le service users
+import { Link, useNavigate } from 'react-router-dom'; // Importation de Link et useNavigate depuis react-router-dom
 
-function Page({children}) {
+function Page({ children }) {
+  // Déclaration de la fonction de composant Page qui prend des enfants en paramètre
 
-  const navigate = useNavigate();
-  const currentUser = getCurrentUser();
+  const navigate = useNavigate(); // Utilisation de useNavigate pour obtenir la fonction de navigation
+  const currentUser = getCurrentUser(); // Récupération de l'utilisateur actuel
 
   const handleLogout = () => {
-    removeCurrentUser();
-    navigate('/login');
+    // Fonction pour gérer la déconnexion de l'utilisateur
+    removeCurrentUser(); // Suppression de l'utilisateur actuel du stockage local
+    navigate('/login'); // Redirection vers la page de connexion
   };
 
   return (
     <Box>
-        <Box sx={{backgroundColor:"#F8F4F4",minHeight:'100vh'}}>
+      {/* Conteneur principal */}
+      <Box sx={{ backgroundColor: '#F8F4F4', minHeight: '100vh' }}>
+        {/* Boîte avec fond de couleur */}
         <Container maxWidth="sm">
-          <Box sx={{paddingTop:5,paddingBottom:6}}>
-            <Box sx={{ marginBottom:5, maxWidth:'300px', marginX:'auto'}}>
+          {/* Conteneur avec largeur maximale */}
+          <Box sx={{ paddingTop: 5, paddingBottom: 6 }}>
+            {/* Boîte avec padding en haut et en bas */}
+            <Box sx={{ marginBottom: 5, maxWidth: '300px', marginX: 'auto' }}>
+              {/* Logo Pokemon */}
               <img src={logo} alt="logo pokemon" />
             </Box>
+            {/* Condition pour afficher le message de bienvenue et le bouton de déconnexion */}
             {currentUser && (
-                <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 2, marginBottom: 4 }}>
-                  <Link to={`/pokedex`} style={{ textDecoration: 'none' }}>
-                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, cursor: 'pointer' }} >
-                      <Avatar alt={`Avatar ${currentUser.name}`} src={"/src/assets/"+currentUser.avatar+".jpg"} sx={{ width: 40, height: 40 }} />
-                      <Typography>Bonjour {currentUser.name}</Typography>
-                    </Box>
-                  </Link>
-                  <Link to="/login" style={{ textDecoration: 'none' }}>
-                    <Button variant="contained" onClick={handleLogout}>Se déconnecter</Button>
-                  </Link>
-                </Box>
-              )}
-            <Card sx={{padding:2}}>
-                {children}
+              <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 2, marginBottom: 4 }}>
+                <Link to={`/pokedex`} style={{ textDecoration: 'none' }}>
+                  {/* Lien vers le Pokédex */}
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, cursor: 'pointer' }} >
+                    {/* Avatar de l'utilisateur */}
+                    <Avatar alt={`Avatar ${currentUser.name}`} src={`/src/assets/${currentUser.avatar}.jpg`} sx={{ width: 40, height: 40 }} />
+                    {/* Message de bienvenue */}
+                    <Typography>Bonjour {currentUser.name}</Typography>
+                  </Box>
+                </Link>
+                <Link to="/login" style={{ textDecoration: 'none' }}>
+                  {/* Lien pour se déconnecter */}
+                  <Button variant="contained" onClick={handleLogout}>Se déconnecter</Button>
+                </Link>
+              </Box>
+            )}
+            {/* Carte contenant les enfants */}
+            <Card sx={{ padding: 2 }}>
+              {children}
             </Card>
           </Box>
         </Container>
-        </Box>
+      </Box>
     </Box>
-  )
+  );
 }
 
-export default Page
+export default Page;
