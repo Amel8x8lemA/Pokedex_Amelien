@@ -35,7 +35,7 @@ function Page({ children }) {
                   {/* Lien vers le Pokédex */}
                   <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, cursor: 'pointer' }} >
                     {/* Avatar de l'utilisateur */}
-                    <Avatar alt={`Avatar ${currentUser.name}`} src={`/src/assets/${currentUser.avatar}.jpg`} sx={{ width: 40, height: 40 }} />
+                    <Avatar alt={`Avatar ${currentUser.name}`} src={`/avatars/${currentUser.avatar}.jpg`} sx={{ width: 40, height: 40 }} />
                     {/* Message de bienvenue */}
                     <Typography>Bonjour {currentUser.name}</Typography>
                   </Box>

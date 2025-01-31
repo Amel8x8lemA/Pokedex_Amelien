@@ -54,7 +54,7 @@ function CreateUser() {
                     <Avatar
                         key={index}
                         alt={`Avatar ${index}`}
-                        src={`/src/assets/${index}.jpg`}
+                        src={`/avatars/${index}.jpg`}
                         sx={{ width: 75, height: 75, opacity: selectedAvatar === index ? 1 : 0.5, cursor: 'pointer' }}
                         onClick={() => handleAvatarClick(index)}
                     />

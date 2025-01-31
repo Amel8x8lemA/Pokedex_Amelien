@@ -45,7 +45,7 @@ function Login() {
                             <Link key={index} to={`/pokedex`} style={{ textDecoration: 'none' }}>
                                 {/* Lien pour sélectionner un utilisateur */}
                                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, cursor: 'pointer', width: '70%', justifyItems: 'left' }} onClick={() => handleSelectUser(index)} >
-                                    <Avatar alt={`Avatar ${user.name}`} src={`/src/assets/${user.avatar}.jpg`} sx={{ width: 40, height: 40 }} />
+                                    <Avatar alt={`Avatar ${user.name}`} src={`/avatars/${user.avatar}.jpg`} sx={{ width: 40, height: 40 }} />
                                     {/* Affichage de l'avatar et du nom de l'utilisateur */}
                                     <Typography>{user.name}</Typography>
                                 </Box>
