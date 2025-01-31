@@ -1,18 +1,17 @@
 import React from 'react';
 import { Box, Container, Card, Typography, Avatar, Button } from '@mui/material'; // Importation des composants depuis MUI
 import logo from '../assets/logo.png'; // Importation du logo Pokemon
-import { getCurrentUser, removeCurrentUser } from '../services/users'; // Importation des fonctions liées aux utilisateurs depuis le service users
 import { Link, useNavigate } from 'react-router-dom'; // Importation de Link et useNavigate depuis react-router-dom
+import { useUser } from '../contexts/UserContext';
 
 function Page({ children }) {
   // Déclaration de la fonction de composant Page qui prend des enfants en paramètre
 
-  const navigate = useNavigate(); // Utilisation de useNavigate pour obtenir la fonction de navigation
-  const currentUser = getCurrentUser(); // Récupération de l'utilisateur actuel
+  const navigate = useNavigate();
+  const { currentUser, logout } = useUser();
 
-  const handleLogout = () => {
-    // Fonction pour gérer la déconnexion de l'utilisateur
-    removeCurrentUser(); // Suppression de l'utilisateur actuel du stockage local
+  const handleLogout = () => {   // Fonction pour gérer la déconnexion de l'utilisateur
+    logout();           // Appel de la fonction logout du UserContext
     navigate('/login'); // Redirection vers la page de connexion
   };
 
